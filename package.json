@@ -1,0 +1,44 @@
+{
+  "name": "@rowanmanning/fastify-htm-preact-views",
+  "version": "0.0.0",
+  "description": "Render Preact views via HTM in Fastify applications",
+  "keywords": [
+    "fastify",
+    "htm",
+    "preact"
+  ],
+  "author": "Rowan Manning (https://rowanmanning.com/)",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rowanmanning/fastify-htm-preact-views.git"
+  },
+  "homepage": "https://github.com/rowanmanning/fastify-htm-preact-views",
+  "bugs": "https://github.com/rowanmanning/fastify-htm-preact-views/issues",
+  "license": "MIT",
+  "engines": {
+    "node": ">=12"
+  },
+  "peerDependencies": {
+    "preact": "^10.5.13"
+  },
+  "dependencies": {
+    "fastify-plugin": "^3.0.0",
+    "htm": "^3.0.4",
+    "preact-render-to-string": "^5.1.16"
+  },
+  "devDependencies": {
+    "@rowanmanning/eslint-config": "^3.1.0",
+    "@rowanmanning/make": "^2.1.0",
+    "chai": "^4.3.4",
+    "eslint": "^7.22.0",
+    "mocha": "^8.3.2",
+    "mockery": "^2.1.0",
+    "nodemon": "^2.0.7",
+    "nyc": "^15.1.0",
+    "sinon": "^10.0.0"
+  },
+  "main": "./index.js",
+  "scripts": {
+    "test": "make ci"
+  }
+}
