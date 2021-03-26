@@ -51,9 +51,9 @@ In the above example, you'll need to provide a view in `<CWD>/views/example.js`:
 
 ```js
 module.exports = ({html, thing}) => {
-	return html`
-		<h1>Hello ${thing}!</h1>
-	`;
+    return html`
+        <h1>Hello ${thing}!</h1>
+    `;
 };
 ```
 
