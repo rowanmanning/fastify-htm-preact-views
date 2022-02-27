@@ -34,17 +34,17 @@ npm install preact @rowanmanning/fastify-htm-preact-views
 Register the plugin before your routes in your Fastify application, using a `require` call:
 
 ```js
-const fastify = require('fastify')();
+const app = require('fastify')();
 
-fastify.register(require('@rowanmanning/fastify-htm-preact-views'));
+app.register(require('@rowanmanning/fastify-htm-preact-views'));
 
-fastify.get('/', (request, reply) => {
+app.get('/', (request, reply) => {
     reply.view('example', {
         thing: 'World'
     });
 });
 
-fastify.listen(8080);
+app.listen(8080);
 ```
 
 In the above example, you'll need to provide a view in `<CWD>/views/example.js`:
@@ -64,7 +64,7 @@ In all views, the `html` prop is an [`htm`](https://github.com/developit/htm) ta
 You can specify a default set of global properties as an option when you register the plugin:
 
 ```js
-fastify.register(require('@rowanmanning/fastify-htm-preact-views'), {
+app.register(require('@rowanmanning/fastify-htm-preact-views'), {
     defaultProps: {
         thing: 'World'
     }
@@ -76,12 +76,12 @@ Now when you render a view, you can override this default property or don't supp
 ```js
 
 // Renders "Hello World" because it falls back to the default
-fastify.get('/1', (request, reply) => {
+app.get('/1', (request, reply) => {
     reply.view('example');
 });
 
 // Renders "Hello Friend"
-fastify.get('/2', (request, reply) => {
+app.get('/2', (request, reply) => {
     reply.view('example', {
         thing: 'Friend'
     });
@@ -93,7 +93,7 @@ fastify.get('/2', (request, reply) => {
 You can specify additional properties on a reply object, which will be available to later routes:
 
 ```js
-fastify.addHook('preHandler', (request, reply, done) => {
+app.addHook('preHandler', (request, reply, done) => {
     reply.props = {
         thing: 'Friend'
     };
@@ -101,7 +101,7 @@ fastify.addHook('preHandler', (request, reply, done) => {
 });
 
 // Renders "Hello Friend"
-fastify.get('/', (request, reply) => {
+app.get('/', (request, reply) => {
     reply.view('example');
 });
 ```
@@ -147,7 +147,7 @@ module.exports = props => {
 By default, an HTML5 doctype is send with the rendered output, and the `Content-Type` header is set to `text/html`. These are both configurable as props passed into `reply.view`.
 
 ```js
-fastify.get('/', (request, reply) => {
+app.get('/', (request, reply) => {
     reply.view('example', {
         doctype: '<?xml version="1.0" encoding="UTF-8"?>',
         contentType: 'text/xml'
@@ -163,7 +163,7 @@ Both of these properties can be set to a falsy value, which means they will not 
 This plugin can configured using options passed into the Fastify `register` function:
 
 ```js
-fastify.register(require('@rowanmanning/fastify-htm-preact-views'), {
+app.register(require('@rowanmanning/fastify-htm-preact-views'), {
     // Options go here
 });
 ```
