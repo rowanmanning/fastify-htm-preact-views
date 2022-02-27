@@ -1,15 +1,14 @@
 
+
 # Contribution Guide
 
-We welcome contributions to this project. This guide outlines what's expected of you when you contribute, and what you can expect from me.
+I welcome contributions to this project. This guide outlines what's expected of you when you contribute, and what you can expect from me in return.
 
 ## Table of Contents
 
   * [What I expect from you](#what-i-expect-from-you)
   * [What you can expect from me](#what-you-can-expect-from-me)
   * [Technical](#technical)
-    * [Linting](#linting)
-    * [Unit tests](#unit-tests)
 
 
 ## What I expect from you
@@ -47,15 +46,15 @@ this project is linted using [ESLint](https://eslint.org/), configured in the wa
 ESLint errors will fail the build on any PRs. Most editors have an ESLint plugin which will pick up errors, but you can also run the linter manually with the following command:
 
 ```
-make verify
+npm run verify
 ```
 
 ### Unit tests
 
-This project has unit tests with 100% coverage, and failing unit tests will fail the build on any PRs. If you add or remove features, please update the tests to match.
+This project has unit tests with good coverage, and failing unit tests will fail the build on any PRs. If you add or remove features, please update the tests to match.
 
 You can run tests manually with the following command:
 
 ```
-make test
+npm run test:unit
 ```

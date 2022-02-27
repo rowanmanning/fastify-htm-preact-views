@@ -1,11 +1,9 @@
 'use strict';
 
 const {assert} = require('chai');
-const mockery = require('mockery');
-const sinon = require('sinon');
+const td = require('testdouble');
 
 describe('lib/fastify-htm-preact-views', () => {
-	let fastify;
 	let fastifyHtmPreactViews;
 	let htmPreact;
 	let mockView;
@@ -14,25 +12,18 @@ describe('lib/fastify-htm-preact-views', () => {
 	let preactRenderToString;
 
 	beforeEach(() => {
-
-		fastify = require('../mock/npm/fastify');
-		mockery.registerMock('fastify', fastify);
-
-		htmPreact = require('../mock/npm/htm/preact');
-		mockery.registerMock('htm/preact', htmPreact);
-
-		mockView = sinon.stub();
-		mockery.registerMock('mock-resolved-path/mock-view-name', mockView);
-
+		htmPreact = td.replace('htm/preact', {html: td.func()});
+		mockView = td.replace('mock-resolved-path/mock-view-name', td.func());
+		td.replace('mock-resolved-path/not-a-view', () => {
+			const error = new Error('mock error');
+			error.code = 'MODULE_NOT_FOUND';
+			throw error;
+		});
 		path = require('path');
+		plugin = td.replace('fastify-plugin', td.func());
+		preactRenderToString = td.replace('preact-render-to-string', {render: td.func()});
 
-		plugin = require('../mock/npm/fastify-plugin');
-		mockery.registerMock('fastify-plugin', plugin);
-
-		preactRenderToString = require('../mock/npm/preact-render-to-string');
-		mockery.registerMock('preact-render-to-string', preactRenderToString);
-
-		plugin.onFirstCall().returns({
+		td.when(plugin(), {ignoreExtraArgs: true}).thenReturn({
 			isMockPlugin: true
 		});
 
@@ -40,22 +31,27 @@ describe('lib/fastify-htm-preact-views', () => {
 	});
 
 	it('creates a Fastify plugin', () => {
-		assert.calledOnce(plugin);
-		assert.lengthOf(plugin.firstCall.args, 2);
-		assert.isFunction(plugin.firstCall.args[0]);
-		assert.isObject(plugin.firstCall.args[1]);
+		td.verify(plugin(td.matchers.isA(Function), {
+			fastify: '3.x',
+			name: '@rowanmanning/fastify-htm-preact-views'
+		}), {times: 1});
 	});
 
 	describe('pluginFn(fastify, options, done)', () => {
+		let mockServer;
 		let pluginFn;
 		let userOptions;
 
 		beforeEach(done => {
-			pluginFn = plugin.firstCall.args[0];
+			pluginFn = td.explain(plugin).calls[0].args[0];
 
-			sinon.spy(path, 'join');
-			sinon.stub(path, 'resolve').returns('mock-resolved-path');
-			sinon.spy(Object, 'assign');
+			td.replace(path, 'resolve');
+			td.when(path.resolve('mock-views-folder')).thenReturn('mock-resolved-path');
+
+			mockServer = {
+				decorate: td.func(),
+				decorateReply: td.func()
+			};
 
 			userOptions = {
 				defaultProps: {
@@ -67,93 +63,89 @@ describe('lib/fastify-htm-preact-views', () => {
 				viewsFolder: 'mock-views-folder'
 			};
 
-			pluginFn(fastify.mockServer, userOptions, done);
-		});
+			td.replace(Object, 'assign');
+			td.when(Object.assign({}, td.matchers.isA(Object), userOptions.defaultProps)).thenReturn({
+				contentType: 'mock-content-type',
+				doctype: 'mock-doctype',
+				isMockDefaultProps: true
+			});
 
-		afterEach(() => {
-			path.join.restore();
-			path.resolve.restore();
-			Object.assign.restore();
+			pluginFn(mockServer, userOptions, done);
 		});
 
 		it('combines `options.defaultProps` with some internal default values', () => {
-			assert.calledOnce(Object.assign);
-			assert.lengthOf(Object.assign.firstCall.args, 3);
-			assert.isObject(Object.assign.firstCall.args[0]);
-			assert.deepEqual(Object.assign.firstCall.args[1], {
+			td.verify(Object.assign({}, {
 				contentType: 'text/html',
 				doctype: '<!DOCTYPE html>'
-			});
-			assert.strictEqual(Object.assign.firstCall.args[2], userOptions.defaultProps);
+			}, userOptions.defaultProps), {times: 1});
 		});
 
 		it('resolves `options.viewsFolder`', () => {
-			assert.calledOnce(path.resolve);
-			assert.calledWithExactly(path.resolve, 'mock-views-folder');
+			td.verify(path.resolve('mock-views-folder'), {times: 1});
 		});
 
 		it('decorates the Fastify app with a view method', () => {
-			assert.calledOnce(fastify.mockServer.decorate);
-			assert.lengthOf(fastify.mockServer.decorate.firstCall.args, 2);
-			assert.strictEqual(fastify.mockServer.decorate.firstCall.args[0], 'view');
-			assert.isFunction(fastify.mockServer.decorate.firstCall.args[1]);
+			td.verify(mockServer.decorate('view', td.matchers.isA(Function)), {times: 1});
 		});
 
 		describe('fastify.view(name, props)', () => {
 			let defaultProps;
+			let defaultedProps;
 			let fastifyViewFn;
 			let returnValue;
 			let userProps;
 
 			beforeEach(() => {
-				fastifyViewFn = fastify.mockServer.decorate.firstCall.args[1];
+				fastifyViewFn = td.explain(mockServer.decorate).calls[0].args[1];
 
-				defaultProps = Object.assign.firstCall.returnValue;
-				Object.assign.resetHistory();
+				td.replace(path, 'join');
+				td.when(path.join('mock-resolved-path', 'mock-view-name')).thenReturn('mock-resolved-path/mock-view-name');
+				td.when(path.join('mock-resolved-path', 'not-a-view')).thenReturn('mock-resolved-path/not-a-view');
 
-				mockView.returns('mock-view-dom');
+				td.when(mockView(), {ignoreExtraArgs: true}).thenReturn('mock-view-dom');
 
-				preactRenderToString.render.returns('mock-rendered-view');
+				td.when(preactRenderToString.render(), {ignoreExtraArgs: true}).thenReturn('mock-rendered-view');
 
+				defaultProps = {
+					contentType: 'mock-content-type',
+					doctype: 'mock-doctype',
+					isMockDefaultProps: true
+				};
 				userProps = {
 					isUserProps: true
 				};
+				defaultedProps = {
+					doctype: 'mock-doctype',
+					isDefaultedProps: true
+				};
 
-				returnValue = fastifyViewFn.call(fastify.mockServer, 'mock-view-name', userProps);
+				td.when(Object.assign({}, defaultProps, userProps)).thenReturn(defaultedProps);
+
+				returnValue = fastifyViewFn.call(mockServer, 'mock-view-name', userProps);
 			});
 
 			it('combines the props with the defaults', () => {
-				assert.calledOnce(Object.assign);
-				assert.lengthOf(Object.assign.firstCall.args, 3);
-				assert.isObject(Object.assign.firstCall.args[0]);
-				assert.strictEqual(Object.assign.firstCall.args[1], defaultProps);
-				assert.strictEqual(Object.assign.firstCall.args[2], userProps);
+				td.verify(Object.assign({}, defaultProps, userProps), {
+					times: 1
+				});
 			});
 
 			it('sets `props.html` to the htm/preact bound function', () => {
-				assert.strictEqual(Object.assign.firstCall.returnValue.html, htmPreact.html);
+				assert.strictEqual(defaultedProps.html, htmPreact.html);
 			});
 
 			it('joins `options.viewsFolder` with the `name` and requires it', () => {
-				assert.calledOnce(path.join);
-				assert.calledWithExactly(path.join, 'mock-resolved-path', 'mock-view-name');
+				td.verify(path.join('mock-resolved-path', 'mock-view-name'), {times: 1});
 			});
 
 			it('calls the required view function with `props` and an empty state object', () => {
-				assert.calledOnce(mockView);
-				assert.lengthOf(mockView.firstCall.args, 2);
-				assert.strictEqual(mockView.firstCall.args[0], Object.assign.firstCall.returnValue);
-				assert.deepEqual(mockView.firstCall.args[1], {});
+				td.verify(mockView(defaultedProps, {}), {times: 1});
 			});
 
 			it('renders the returned DOM as a string', () => {
-				assert.calledOnce(preactRenderToString.render);
-				assert.lengthOf(preactRenderToString.render.firstCall.args, 3);
-				assert.strictEqual(preactRenderToString.render.firstCall.args[0], 'mock-view-dom');
-				assert.isNull(preactRenderToString.render.firstCall.args[1]);
-				assert.deepEqual(preactRenderToString.render.firstCall.args[2], {
+				td.verify(preactRenderToString.render('mock-view-dom', null, {
 					pretty: 'mock-pretty-output'
-				});
+				}), {times: 1});
 			});
 
 			it('returns the rendered view as a string, including a DOCTYPE', () => {
@@ -163,8 +155,10 @@ describe('lib/fastify-htm-preact-views', () => {
 			describe('when `props.doctype` is falsy', () => {
 
 				beforeEach(() => {
-					userProps.doctype = null;
-					returnValue = fastifyViewFn.call(fastify.mockServer, 'mock-view-name', userProps);
+					td.when(Object.assign({}, defaultProps, userProps)).thenReturn({
+						doctype: undefined
+					});
+					returnValue = fastifyViewFn.call(mockServer, 'mock-view-name', userProps);
 				});
 
 				it('returns the rendered view as a string without a DOCTYPE', () => {
@@ -178,7 +172,7 @@ describe('lib/fastify-htm-preact-views', () => {
 
 				beforeEach(() => {
 					try {
-						returnValue = fastifyViewFn.call(fastify.mockServer, null, userProps);
+						returnValue = fastifyViewFn.call(mockServer, null, userProps);
 					} catch (error) {
 						caughtError = error;
 					}
@@ -191,12 +185,12 @@ describe('lib/fastify-htm-preact-views', () => {
 
 			});
 
-			describe('when thew view cannot be found', () => {
+			describe('when the view cannot be found', () => {
 				let caughtError;
 
 				beforeEach(() => {
 					try {
-						returnValue = fastifyViewFn.call(fastify.mockServer, 'not-a-view', userProps);
+						returnValue = fastifyViewFn.call(mockServer, 'not-a-view', userProps);
 					} catch (error) {
 						caughtError = error;
 					}
@@ -215,9 +209,9 @@ describe('lib/fastify-htm-preact-views', () => {
 
 				beforeEach(() => {
 					viewError = new Error('mock-view-error');
-					mockView.throws(viewError);
+					td.when(mockView(), {ignoreExtraArgs: true}).thenThrow(viewError);
 					try {
-						returnValue = fastifyViewFn.call(fastify.mockServer, 'mock-view-name', userProps);
+						returnValue = fastifyViewFn.call(mockServer, 'mock-view-name', userProps);
 					} catch (error) {
 						caughtError = error;
 					}
@@ -232,69 +226,80 @@ describe('lib/fastify-htm-preact-views', () => {
 		});
 
 		it('decorates the Fastify reply with a view method', () => {
-			assert.calledOnce(fastify.mockServer.decorateReply);
-			assert.lengthOf(fastify.mockServer.decorateReply.firstCall.args, 2);
-			assert.strictEqual(fastify.mockServer.decorateReply.firstCall.args[0], 'view');
-			assert.isFunction(fastify.mockServer.decorateReply.firstCall.args[1]);
+			td.verify(mockServer.decorateReply('view', td.matchers.isA(Function)), {times: 1});
 		});
 
 		describe('reply.view(name, props)', () => {
 			let defaultProps;
+			let mockReply;
 			let replyViewFn;
 			let userProps;
 
 			beforeEach(() => {
-				replyViewFn = fastify.mockServer.decorateReply.firstCall.args[1];
+				replyViewFn = td.explain(mockServer.decorateReply).calls[0].args[1];
 
-				defaultProps = Object.assign.firstCall.returnValue;
-				Object.assign.resetHistory();
+				mockServer.view = td.func();
+				td.when(mockServer.view(), {ignoreExtraArgs: true}).thenReturn('mock-rendered-view');
 
-				fastify.mockServer.view = sinon.stub().returns('mock-rendered-view');
+				mockReply = {
+					type: td.func(),
+					send: td.func(),
+					props: {
+						isMockReplyProps: true
+					}
+				};
 
-				fastify.mockReply.props = {
-					isMockReplyProps: true
+				defaultProps = {
+					contentType: 'mock-content-type',
+					doctype: 'mock-doctype',
+					isMockDefaultProps: true
 				};
 				userProps = {
 					isUserProps: true
 				};
 
-				replyViewFn.call(fastify.mockReply, 'mock-view-name', userProps);
+				td.when(Object.assign({}, defaultProps, mockReply.props, userProps)).thenReturn({
+					contentType: 'mock-content-type',
+					isMockReplyProps: true
+				});
+
+				replyViewFn.call(mockReply, 'mock-view-name', userProps);
 			});
 
 			it('combines the props with the defaults', () => {
-				assert.calledOnce(Object.assign);
-				assert.lengthOf(Object.assign.firstCall.args, 4);
-				assert.isObject(Object.assign.firstCall.args[0]);
-				assert.strictEqual(Object.assign.firstCall.args[1], defaultProps);
-				assert.strictEqual(Object.assign.firstCall.args[2], fastify.mockReply.props);
-				assert.strictEqual(Object.assign.firstCall.args[3], userProps);
+				td.verify(Object.assign({}, defaultProps, mockReply.props, userProps), {times: 1});
 			});
 
 			it('sets a content type based on the `props.contentType`', () => {
-				assert.calledOnce(fastify.mockReply.type);
-				assert.calledWithExactly(fastify.mockReply.type, 'mock-content-type');
+				td.verify(mockReply.type('mock-content-type'), {times: 1});
 			});
 
 			it('calls `fastify.view` with the name and defaulted props', () => {
-				assert.calledOnce(fastify.mockServer.view);
-				assert.calledWithExactly(fastify.mockServer.view, 'mock-view-name', Object.assign.firstCall.returnValue);
+				td.verify(mockServer.view('mock-view-name', {
+					contentType: 'mock-content-type',
+					isMockReplyProps: true
+				}), {times: 1});
 			});
 
 			it('sends the rendered view in the response', () => {
-				assert.calledOnce(fastify.mockReply.send);
-				assert.calledWithExactly(fastify.mockReply.send, 'mock-rendered-view');
+				td.verify(mockReply.send('mock-rendered-view'), {times: 1});
 			});
 
 			describe('when `props.contentType` is falsy', () => {
 
 				beforeEach(() => {
-					fastify.mockReply.type.resetHistory();
-					userProps.contentType = null;
-					replyViewFn.call(fastify.mockReply, 'mock-view-name', userProps);
+					mockReply.type = td.func();
+					td.when(Object.assign(), {ignoreExtraArgs: true}).thenReturn({
+						isMockReplyProps: true
+					});
+					replyViewFn.call(mockReply, 'mock-view-name', userProps);
 				});
 
 				it('does not set a content type', () => {
-					assert.notCalled(fastify.mockReply.type);
+					td.verify(mockReply.type(), {
+						ignoreExtraArgs: true,
+						times: 0
+					});
 				});
 
 			});
@@ -305,12 +310,12 @@ describe('lib/fastify-htm-preact-views', () => {
 			let caughtError;
 
 			beforeEach(done => {
-				path.resolve.resetHistory();
+				path.resolve = td.func();
 
 				userOptions.viewsFolder = [];
 
 				try {
-					pluginFn(fastify.mockServer, userOptions, done);
+					pluginFn(mockServer, userOptions, done);
 				} catch (error) {
 					caughtError = error;
 					done();
@@ -318,7 +323,10 @@ describe('lib/fastify-htm-preact-views', () => {
 			});
 
 			it('does not resolve `options.viewsFolder`', () => {
-				assert.notCalled(path.resolve);
+				td.verify(path.resolve(), {
+					ignoreExtraArgs: true,
+					times: 0
+				});
 			});
 
 			it('throws an error', () => {
@@ -331,21 +339,16 @@ describe('lib/fastify-htm-preact-views', () => {
 		describe('when `options.viewsFolder` is falsy', () => {
 
 			beforeEach(done => {
-				path.resolve.resetHistory();
-				sinon.stub(process, 'cwd').returns('mock-cwd');
+				td.replace(process, 'cwd');
+				td.when(process.cwd()).thenReturn('mock-cwd');
 
 				userOptions.viewsFolder = null;
 
-				pluginFn(fastify.mockServer, userOptions, done);
-			});
-
-			afterEach(() => {
-				process.cwd.restore();
+				pluginFn(mockServer, userOptions, done);
 			});
 
 			it('defaults to the "views" folder in current working directory ', () => {
-				assert.calledOnce(path.resolve);
-				assert.calledWithExactly(path.resolve, 'mock-cwd/views');
+				td.verify(path.resolve('mock-cwd/views'), {times: 1});
 			});
 
 		});
@@ -353,42 +356,37 @@ describe('lib/fastify-htm-preact-views', () => {
 		describe('when `options.prettyOutput` is undefined', () => {
 
 			beforeEach(done => {
-				fastify.mockServer.decorate.resetHistory();
+				mockServer.decorate = td.func();
 				delete userOptions.prettyOutput;
-				pluginFn(fastify.mockServer, userOptions, done);
+				pluginFn(mockServer, userOptions, done);
 			});
 
 			describe('fastify.view(name, props)', () => {
 				let fastifyViewFn;
 
 				beforeEach(() => {
-					preactRenderToString.render.resetHistory();
-					fastifyViewFn = fastify.mockServer.decorate.firstCall.args[1];
-					mockView.returns('mock-view-dom');
-					preactRenderToString.render.returns('mock-rendered-view');
-					fastifyViewFn.call(fastify.mockServer, 'mock-view-name', {});
+					fastifyViewFn = td.explain(mockServer.decorate).calls[0].args[1];
+					td.when(mockView(), {ignoreExtraArgs: true}).thenReturn('mock-view-dom');
+					td.when(Object.assign(), {ignoreExtraArgs: true}).thenReturn({});
+					fastifyViewFn.call(mockServer, 'mock-view-name', {});
 				});
 
 				it('renders the returned DOM as a string, with pretty output on', () => {
-					assert.calledOnce(preactRenderToString.render);
-					assert.lengthOf(preactRenderToString.render.firstCall.args, 3);
-					assert.strictEqual(preactRenderToString.render.firstCall.args[0], 'mock-view-dom');
-					assert.isNull(preactRenderToString.render.firstCall.args[1]);
-					assert.deepEqual(preactRenderToString.render.firstCall.args[2], {
+					td.verify(preactRenderToString.render('mock-view-dom', null, {
 						pretty: true
-					});
+					}), {times: 1});
 				});
 
 			});
 
 		});
 
-		describe('when `options` is not falsy', () => {
+		describe('when `options` is falsy', () => {
 			let caughtError;
 
 			beforeEach(done => {
 				try {
-					pluginFn(fastify.mockServer, null, done);
+					pluginFn(mockServer, null, done);
 				} catch (error) {
 					caughtError = error;
 					done();
@@ -407,7 +405,7 @@ describe('lib/fastify-htm-preact-views', () => {
 		let pluginMetadata;
 
 		beforeEach(() => {
-			pluginMetadata = plugin.firstCall.args[1];
+			pluginMetadata = td.explain(plugin).calls[0].args[1];
 		});
 
 		it('has a name which matches the module name', () => {
@@ -421,7 +419,7 @@ describe('lib/fastify-htm-preact-views', () => {
 	});
 
 	it('exports the created plugin', () => {
-		assert.strictEqual(fastifyHtmPreactViews, plugin.firstCall.returnValue);
+		assert.isObject(fastifyHtmPreactViews);
 		assert.isTrue(fastifyHtmPreactViews.isMockPlugin);
 	});
 

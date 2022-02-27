@@ -6,7 +6,7 @@ Render [Preact](https://preactjs.com/) views via [HTM](https://github.com/develo
 This offers a compilation-free views with Preact as a Fastify plugin. See ["alternatives to JSX"](https://preactjs.com/guide/v10/getting-started#alternatives-to-jsx) in the Preact docs to learn more about why you might do this.
 
 
-## Table of contents
+## Table of Contents
 
   * [Requirements](#requirements)
   * [Usage](#usage)
@@ -20,7 +20,7 @@ This offers a compilation-free views with Preact as a Fastify plugin. See ["alte
 This library requires the following to run:
 
   * [Node.js](https://nodejs.org/) v12+
-  * [Fastify](https://www.fastify.io/) v3.x
+  * [Fastify](https://www.fastify.io/) v3+
 
 
 ## Usage
