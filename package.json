@@ -37,7 +37,7 @@
     "fastify3": "npm:fastify@^3.27.2",
     "fastify4": "npm:fastify@^4.0.0-alpha.1",
     "husky": "^7.0.4",
-    "mocha": "^9.2.1",
+    "mocha": "^10.0.0",
     "nodemon": "^2.0.15",
     "nyc": "^15.1.0",
     "preact": "^10.6.6",
