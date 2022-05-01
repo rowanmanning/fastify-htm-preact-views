@@ -28,12 +28,15 @@
     "preact-render-to-string": "^5.1.20"
   },
   "devDependencies": {
+    "@commitlint/cli": "^16.2.4",
+    "@commitlint/config-conventional": "^16.2.4",
     "@rowanmanning/eslint-config": "^3.3.0",
     "axios": "^0.26.0",
     "chai": "^4.3.6",
     "eslint": "^8.9.0",
     "fastify3": "npm:fastify@^3.27.2",
     "fastify4": "npm:fastify@^4.0.0-alpha.1",
+    "husky": "^7.0.4",
     "mocha": "^9.2.1",
     "nodemon": "^2.0.15",
     "nyc": "^15.1.0",
@@ -47,8 +50,9 @@
     "test:coverage": "nyc npm run test:unit",
     "test:integration": "mocha 'test/integration/**/*.test.js'",
     "test": "npm run test:coverage && npm run test:integration",
-    "project:verify": "npx --yes @rowanmanning/validate-project --type git node-library",
-    "project:fix": "npx --yes @rowanmanning/validate-project --type git node-library --fix"
+    "project:verify": "npx --yes @rowanmanning/validate-project@2 --type git node-library",
+    "project:fix": "npx --yes @rowanmanning/validate-project@2 --type git node-library --fix",
+    "prepare": "husky install"
   },
   "nyc": {
     "eager": true,
