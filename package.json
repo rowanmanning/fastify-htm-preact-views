@@ -1,6 +1,6 @@
 {
   "name": "@rowanmanning/fastify-htm-preact-views",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "Render Preact views via HTM in Fastify applications",
   "keywords": [
     "fastify",
