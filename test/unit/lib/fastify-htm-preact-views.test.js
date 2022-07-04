@@ -32,7 +32,7 @@ describe('lib/fastify-htm-preact-views', () => {
 
 	it('creates a Fastify plugin', () => {
 		td.verify(plugin(td.matchers.isA(Function), {
-			fastify: '3.x || ~4.0.0-alpha',
+			fastify: '3.x || 4.x',
 			name: '@rowanmanning/fastify-htm-preact-views'
 		}), {times: 1});
 	});
@@ -413,7 +413,7 @@ describe('lib/fastify-htm-preact-views', () => {
 		});
 
 		it('has a defined compatible Fastify version', () => {
-			assert.strictEqual(pluginMetadata.fastify, '3.x || ~4.0.0-alpha');
+			assert.strictEqual(pluginMetadata.fastify, '3.x || 4.x');
 		});
 
 	});
