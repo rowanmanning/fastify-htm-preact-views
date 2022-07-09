@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.2](https://github.com/rowanmanning/fastify-htm-preact-views/compare/v2.1.1...v2.1.2) (2022-07-09)
+
+
+### Bug Fixes
+
+* hide the misc changelog section ([34324eb](https://github.com/rowanmanning/fastify-htm-preact-views/commit/34324eb96296f76a80adb887775717bc5a4b6617))
+
 ### [2.1.1](https://github.com/rowanmanning/fastify-htm-preact-views/compare/v2.1.0...v2.1.1) (2022-05-25)
 
 
