@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.4](https://github.com/rowanmanning/fastify-htm-preact-views/compare/v2.1.3...v2.1.4) (2022-08-02)
+
+
+### Bug Fixes
+
+* bump preact-render-to-string from 5.2.0 to 5.2.1 ([990437e](https://github.com/rowanmanning/fastify-htm-preact-views/commit/990437e335ac8957804013843e52f1fc87f85c96))
+
 ## [2.1.3](https://github.com/rowanmanning/fastify-htm-preact-views/compare/v2.1.2...v2.1.3) (2022-07-12)
 
 
