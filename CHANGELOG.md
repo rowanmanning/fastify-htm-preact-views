@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.6](https://github.com/rowanmanning/fastify-htm-preact-views/compare/v2.1.5...v2.1.6) (2022-08-30)
+
+
+### Bug Fixes
+
+* bump fastify-plugin from 4.2.0 to 4.2.1 ([d0cb1a4](https://github.com/rowanmanning/fastify-htm-preact-views/commit/d0cb1a4ce1afaed91dfb53783ca56a19c17b2912))
+
 ## [2.1.5](https://github.com/rowanmanning/fastify-htm-preact-views/compare/v2.1.4...v2.1.5) (2022-08-18)
 
 
