@@ -45,7 +45,8 @@
   },
   "main": "lib/fastify-htm-preact-views.js",
   "scripts": {
-    "verify": "eslint .",
+    "verify": "npm run verify:eslint",
+    "verify:eslint": "eslint .",
     "test:unit": "mocha 'test/unit/**/*.test.js'",
     "test:coverage": "nyc npm run test:unit",
     "test:integration": "mocha 'test/integration/**/*.test.js'",
