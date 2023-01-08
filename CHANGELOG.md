@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.11](https://github.com/rowanmanning/fastify-htm-preact-views/compare/v2.1.10...v2.1.11) (2023-01-08)
+
+
+### Bug Fixes
+
+* bump json5 from 2.2.1 to 2.2.3 ([4bae8c5](https://github.com/rowanmanning/fastify-htm-preact-views/commit/4bae8c5f667f45e12a406bf9831464b57cd0e0ac))
+
 ## [2.1.10](https://github.com/rowanmanning/fastify-htm-preact-views/compare/v2.1.9...v2.1.10) (2022-12-21)
 
 
