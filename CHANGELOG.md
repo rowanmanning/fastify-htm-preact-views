@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.13](https://github.com/rowanmanning/fastify-htm-preact-views/compare/v2.1.12...v2.1.13) (2023-02-14)
+
+
+### Bug Fixes
+
+* support npm v9 ([ac3ea3d](https://github.com/rowanmanning/fastify-htm-preact-views/commit/ac3ea3d7e7b89dbac29a93e3d0372b3063ffadb0))
+
 ## [2.1.12](https://github.com/rowanmanning/fastify-htm-preact-views/compare/v2.1.11...v2.1.12) (2023-01-11)
 
 
