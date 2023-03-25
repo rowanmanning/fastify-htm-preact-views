@@ -1,5 +1,18 @@
 # Changelog
 
+## [3.0.0](https://github.com/rowanmanning/fastify-htm-preact-views/compare/v2.1.13...v3.0.0) (2023-03-25)
+
+
+### ⚠ BREAKING CHANGES
+
+* drop official support for npm v7
+* drop support for Node.js 14
+
+### Miscellaneous
+
+* drop official support for npm v7 ([d98c36a](https://github.com/rowanmanning/fastify-htm-preact-views/commit/d98c36a77c97d44ea36e3449ed9c1027b0493e03))
+* drop support for Node.js 14 ([659d335](https://github.com/rowanmanning/fastify-htm-preact-views/commit/659d3352a32d7ae445fb6bcad7beac4a9ed7c7b9))
+
 ## [2.1.13](https://github.com/rowanmanning/fastify-htm-preact-views/compare/v2.1.12...v2.1.13) (2023-02-14)
 
 
