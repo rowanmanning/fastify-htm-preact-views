@@ -25,7 +25,7 @@
   "dependencies": {
     "fastify-plugin": "^4.0.0",
     "htm": "^3.1.0",
-    "preact-render-to-string": "^5.1.20"
+    "preact-render-to-string": "^6.0.2"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.0.0",
