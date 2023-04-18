@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.1.1](https://github.com/rowanmanning/fastify-htm-preact-views/compare/v3.1.0...v3.1.1) (2023-04-18)
+
+
+### Bug Fixes
+
+* add support for Node.js 20 ([b862528](https://github.com/rowanmanning/fastify-htm-preact-views/commit/b8625289bf21e70d1673c4351fe794ef65e381da))
+
 ## [3.1.0](https://github.com/rowanmanning/fastify-htm-preact-views/compare/v3.0.0...v3.1.0) (2023-04-03)
 
 
