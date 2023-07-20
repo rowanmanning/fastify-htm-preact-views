@@ -1,6 +1,6 @@
 'use strict';
 
-const {assert} = require('chai');
+const assert = require('node:assert');
 const td = require('testdouble');
 
 describe('lib/fastify-htm-preact-views', () => {
@@ -179,7 +179,7 @@ describe('lib/fastify-htm-preact-views', () => {
 				});
 
 				it('throws an error', () => {
-					assert.instanceOf(caughtError, TypeError);
+					assert.ok(caughtError instanceof TypeError);
 					assert.strictEqual(caughtError.message, 'View name must be a string');
 				});
 
@@ -197,7 +197,7 @@ describe('lib/fastify-htm-preact-views', () => {
 				});
 
 				it('throws an error', () => {
-					assert.instanceOf(caughtError, Error);
+					assert.ok(caughtError instanceof Error);
 					assert.strictEqual(caughtError.message, 'View \'not-a-view\' does not exist in mock-resolved-path');
 				});
 
@@ -330,7 +330,7 @@ describe('lib/fastify-htm-preact-views', () => {
 			});
 
 			it('throws an error', () => {
-				assert.instanceOf(caughtError, TypeError);
+				assert.ok(caughtError instanceof TypeError);
 				assert.strictEqual(caughtError.message, 'Views folder must be a string');
 			});
 
@@ -394,7 +394,7 @@ describe('lib/fastify-htm-preact-views', () => {
 			});
 
 			it('does not error', () => {
-				assert.isUndefined(caughtError);
+				assert.strictEqual(caughtError, undefined);
 			});
 
 		});
@@ -419,8 +419,8 @@ describe('lib/fastify-htm-preact-views', () => {
 	});
 
 	it('exports the created plugin', () => {
-		assert.isObject(fastifyHtmPreactViews);
-		assert.isTrue(fastifyHtmPreactViews.isMockPlugin);
+		assert.strictEqual(typeof fastifyHtmPreactViews, 'object');
+		assert.strictEqual(fastifyHtmPreactViews.isMockPlugin, true);
 	});
 
 });

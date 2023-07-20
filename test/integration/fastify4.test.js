@@ -1,6 +1,6 @@
 'use strict';
 
-const {assert} = require('chai');
+const assert = require('node:assert');
 const createTestApp = require('./fixture/create-test-fastify-app');
 
 describe('Fastify 4', () => {
@@ -44,8 +44,8 @@ describe('Fastify 4', () => {
 		});
 
 		it('responds with rendered HTML', () => {
-			assert.isObject(response.data);
-			assert.match(response.data.message, /view 'not-a-view' does not exist/i);
+			assert.strictEqual(typeof response.data, 'object');
+			assert.ok(/view 'not-a-view' does not exist/i.test(response.data.message));
 		});
 
 	});
