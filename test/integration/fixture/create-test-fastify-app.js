@@ -2,7 +2,7 @@
 
 const fastifyHtmPreactViews = require('../../..');
 const httpRequest = require('axios');
-const path = require('path');
+const path = require('node:path');
 
 module.exports = async function createTestFastifyApp(fastifyModule) {
 	const fastify = require(fastifyModule);
