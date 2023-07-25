@@ -1,5 +1,51 @@
 # Changelog
 
+## 3.1.4 (2023-07-25)
+
+
+### ⚠ BREAKING CHANGES
+
+* drop official support for npm v7
+* drop support for Node.js 14
+
+### Features
+
+* bump preact-render-to-string from 5.1.21 to 5.2.0 ([ea12a78](https://github.com/rowanmanning/fastify-htm-preact-views/commit/ea12a78000cbe68c2676c818cd008902d1c9aa7c))
+* bump preact-render-to-string from 5.2.6 to 6.0.2 ([3af9f10](https://github.com/rowanmanning/fastify-htm-preact-views/commit/3af9f10d5df161c374eed42a9f26dc699689f49e))
+
+
+### Bug Fixes
+
+* add support for Node.js 20 ([b862528](https://github.com/rowanmanning/fastify-htm-preact-views/commit/b8625289bf21e70d1673c4351fe794ef65e381da))
+* bump fastify-plugin from 3.0.1 to 4.0.0 ([954e3b9](https://github.com/rowanmanning/fastify-htm-preact-views/commit/954e3b91e8816036d700a4b2ea18f30fc1bf49ad))
+* bump fastify-plugin from 4.0.0 to 4.1.0 ([1f52335](https://github.com/rowanmanning/fastify-htm-preact-views/commit/1f52335dddfe9fae7c175ed3bcf5d9ca44d90481))
+* bump fastify-plugin from 4.1.0 to 4.2.0 ([3882f82](https://github.com/rowanmanning/fastify-htm-preact-views/commit/3882f82bf7b4303cce390354905b71cac4315b65))
+* bump fastify-plugin from 4.2.0 to 4.2.1 ([d0cb1a4](https://github.com/rowanmanning/fastify-htm-preact-views/commit/d0cb1a4ce1afaed91dfb53783ca56a19c17b2912))
+* bump fastify-plugin from 4.2.1 to 4.3.0 ([8c5de15](https://github.com/rowanmanning/fastify-htm-preact-views/commit/8c5de15d61c69697edf824e2382a653c79478c40))
+* bump fastify-plugin from 4.3.0 to 4.4.0 ([4e199fc](https://github.com/rowanmanning/fastify-htm-preact-views/commit/4e199fc92d5230168cc51db8411b174223251812))
+* bump fastify-plugin from 4.4.0 to 4.5.0 ([68bf79a](https://github.com/rowanmanning/fastify-htm-preact-views/commit/68bf79ae1a843fdd8f08a125a73b17c5e8c03cae))
+* bump htm from 3.1.0 to 3.1.1 ([71f26e1](https://github.com/rowanmanning/fastify-htm-preact-views/commit/71f26e1c8d81a1d062953fcd224bd8a92cbb0313))
+* bump json5 from 2.2.1 to 2.2.3 ([4bae8c5](https://github.com/rowanmanning/fastify-htm-preact-views/commit/4bae8c5f667f45e12a406bf9831464b57cd0e0ac))
+* bump preact from 10.10.0 to 10.10.2 ([785a5a0](https://github.com/rowanmanning/fastify-htm-preact-views/commit/785a5a0444fe0846ee8d331faf96b6a173524070))
+* bump preact from 10.10.2 to 10.10.3 ([25571e8](https://github.com/rowanmanning/fastify-htm-preact-views/commit/25571e82b62201ea979585b0e9c0a76f6302cf8a))
+* bump preact-render-to-string from 5.2.0 to 5.2.1 ([990437e](https://github.com/rowanmanning/fastify-htm-preact-views/commit/990437e335ac8957804013843e52f1fc87f85c96))
+* bump preact-render-to-string from 5.2.1 to 5.2.2 ([8703fad](https://github.com/rowanmanning/fastify-htm-preact-views/commit/8703fad5b128b10a6ba098e76c1f54779b2da60f))
+* bump preact-render-to-string from 5.2.2 to 5.2.3 ([a5db5fc](https://github.com/rowanmanning/fastify-htm-preact-views/commit/a5db5fc396ba52e24e2c2f76e55be43ec6e844d7))
+* bump preact-render-to-string from 5.2.3 to 5.2.4 ([deb6fb5](https://github.com/rowanmanning/fastify-htm-preact-views/commit/deb6fb54077c5e90a79dde60bce0391434c464f1))
+* bump preact-render-to-string from 5.2.4 to 5.2.5 ([3458d87](https://github.com/rowanmanning/fastify-htm-preact-views/commit/3458d87cd3c9edae564a2998275db9565cfb9c92))
+* bump preact-render-to-string from 5.2.5 to 5.2.6 ([e7a1757](https://github.com/rowanmanning/fastify-htm-preact-views/commit/e7a17575b728998bbc525f13604fba58f1b9f420))
+* bump preact-render-to-string from 6.0.2 to 6.0.3 ([5816eb5](https://github.com/rowanmanning/fastify-htm-preact-views/commit/5816eb505ce419964cb594a5ca8fa35265e126f2))
+* bump preact-render-to-string from 6.0.3 to 6.1.0 ([239a257](https://github.com/rowanmanning/fastify-htm-preact-views/commit/239a2570cdfc3fb8fc2f5e4e7cb8482c6c2b8997))
+* hide the misc changelog section ([34324eb](https://github.com/rowanmanning/fastify-htm-preact-views/commit/34324eb96296f76a80adb887775717bc5a4b6617))
+* sort out broken releases ([1cede52](https://github.com/rowanmanning/fastify-htm-preact-views/commit/1cede52617056f82154c8e6189e87381fca953bf))
+* support npm v9 ([ac3ea3d](https://github.com/rowanmanning/fastify-htm-preact-views/commit/ac3ea3d7e7b89dbac29a93e3d0372b3063ffadb0))
+
+
+### Miscellaneous
+
+* drop official support for npm v7 ([d98c36a](https://github.com/rowanmanning/fastify-htm-preact-views/commit/d98c36a77c97d44ea36e3449ed9c1027b0493e03))
+* drop support for Node.js 14 ([659d335](https://github.com/rowanmanning/fastify-htm-preact-views/commit/659d3352a32d7ae445fb6bcad7beac4a9ed7c7b9))
+
 ## [3.1.2](https://github.com/rowanmanning/fastify-htm-preact-views/compare/v3.1.1...v3.1.2) (2023-05-20)
 
 
