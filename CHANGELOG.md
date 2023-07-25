@@ -1,5 +1,13 @@
 # Changelog
 
+## [3.1.5](https://github.com/rowanmanning/fastify-htm-preact-views/compare/v3.1.4...v3.1.5) (2023-07-25)
+
+
+### Bug Fixes
+
+* bump fastify-plugin from 4.5.0 to 4.5.1 ([5a091ad](https://github.com/rowanmanning/fastify-htm-preact-views/commit/5a091adc4a893b0fa3780712ab3818654581160d))
+* bump preact-render-to-string from 6.1.0 to 6.2.0 ([9b31e7d](https://github.com/rowanmanning/fastify-htm-preact-views/commit/9b31e7d3b8d4582642012db3b2139654599ebe49))
+
 ## 3.1.4 (2023-07-25)
 
 
