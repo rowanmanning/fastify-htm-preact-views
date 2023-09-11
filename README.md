@@ -19,7 +19,7 @@ This offers a compilation-free views with Preact as a Fastify plugin. See ["alte
 
 This library requires the following to run:
 
-  * [Node.js](https://nodejs.org/) v16+
+  * [Node.js](https://nodejs.org/) v18+
   * [Fastify](https://www.fastify.io/) v3+
 
 
