@@ -1,5 +1,16 @@
 # Changelog
 
+## [4.0.0](https://github.com/rowanmanning/fastify-htm-preact-views/compare/v3.1.6...v4.0.0) (2023-09-11)
+
+
+### ⚠ BREAKING CHANGES
+
+* drop support for Node.js 16
+
+### Miscellaneous
+
+* drop support for Node.js 16 ([06db7cf](https://github.com/rowanmanning/fastify-htm-preact-views/commit/06db7cff4f7ff28dca458b2bc46137ed11731d64))
+
 ## [3.1.6](https://github.com/rowanmanning/fastify-htm-preact-views/compare/v3.1.5...v3.1.6) (2023-09-11)
 
 
