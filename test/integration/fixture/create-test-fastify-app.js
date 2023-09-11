@@ -1,7 +1,6 @@
 'use strict';
 
 const fastifyHtmPreactViews = require('../../..');
-const httpRequest = require('axios');
 const path = require('node:path');
 
 module.exports = async function createTestFastifyApp(fastifyModule) {
@@ -40,16 +39,12 @@ module.exports = async function createTestFastifyApp(fastifyModule) {
 	 *
 	 * @param {string} requestPath
 	 *     The path to make a request to.
-	 * @returns {httpRequest.AxiosResponse}
+	 * @returns {Response}
 	 *     Returns an HTTP response object.
 	 */
 	function get(requestPath) {
-		return httpRequest({
-			url: `${address}${requestPath}`,
-			validateStatus() {
-				return true;
-			}
-		});
+		const url = new URL(requestPath, address);
+		return fetch(url);
 	}
 
 	// Return the methods that we need
