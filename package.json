@@ -28,7 +28,7 @@
     "preact-render-to-string": "^6.0.2"
   },
   "devDependencies": {
-    "@commitlint/cli": "^17.0.0",
+    "@commitlint/cli": "^18.2.0",
     "@commitlint/config-conventional": "^17.0.0",
     "@rowanmanning/eslint-config": "^8.0.0",
     "eslint": "^8.9.0",
